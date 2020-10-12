@@ -17,7 +17,6 @@ const Filter = ({ theme, sortBy, handleChange, selectLocation }) => {
           <option value="Adventure">Adventure</option>
           <option value="Sightseeing">Sightseeing</option>
           <option value="Food & Drink">Food & Drink</option>
-          <option value="Speed">Speed</option>
         </select>
       </div>
       <div className="filter-option">

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+
 import { getAllQuests } from '../../lib/api'
+import icons from '../../lib/icons'
 
 import Filter from '../common/Filter'
 import Map from '../map/Map'
@@ -15,10 +17,12 @@ class QuestIndex extends React.Component {
     },
     allQuests: null,
     results: null,
-    flyTo: null
+    flyTo: null,
+    bounds: {
+      latitude: [-90, 90],
+      longitude: [-180, 180]
+    }
   }
-
-  star = '⭐️'
 
   bgLatLng = [
     (Math.random() * 180) - 90,
@@ -40,10 +44,18 @@ class QuestIndex extends React.Component {
   }
 
   filterResults = () => {
-    if (!this.state.results) return
+    if (!this.state.allQuests) return
 
     const { theme, sortBy } = this.state.formData
-    const results = this.state.results
+    const { allQuests, bounds } = this.state
+
+    const results = allQuests
+      .filter(result => {
+        const location = result.stops[0].location
+        const inLat = location.latitude > bounds.latitude[0] && location.latitude < bounds.latitude[1]
+        const inLng = location.longitude > bounds.longitude[0] && location.longitude < bounds.longitude[1]
+        return inLat && inLng
+      })
       .filter(result => result.theme === theme || theme === 'All')
       .sort((a, b) => {
         if (sortBy === 'time') return b.estTime - a.estTime
@@ -61,21 +73,8 @@ class QuestIndex extends React.Component {
       latitude: [_sw.lat, _ne.lat],
       longitude: [_sw.lng, _ne.lng]
     }
-    this.filterResultsByBounds(bounds)
-  }
-
-  filterResultsByBounds = (bounds) => {
-    if (!this.state.allQuests) return
-    const results = this.state.allQuests.filter(res => {
-      const location = res.stops[0].location
-      const inLat = location.latitude > bounds.latitude[0] && location.latitude < bounds.latitude[1]
-      const inLng = location.longitude > bounds.longitude[0] && location.longitude < bounds.longitude[1]
-      return inLat && inLng
-    })
-    //   .map(result => {
-    //   return { ...result, location: result.location }
-    // })
-    this.setState({ results })
+    this.setState({ bounds })
+    this.filterResults()
   }
 
   flyToQuest = quest => {
@@ -118,6 +117,9 @@ class QuestIndex extends React.Component {
   render() {
     const { formData, results, flyTo } = this.state
     const selected = results ? results.filter(quest => quest.selected)[0] : null
+
+    
+
     return (
       <>
         <BgMap latLng={this.bgLatLng} />
@@ -156,7 +158,10 @@ class QuestIndex extends React.Component {
                     </div>
                     :
                     results.map((quest, i) => (
-                      <div key={i} className="results-list-item" onClick={() => this.flyToQuest(quest)}>{quest.name}<br />{this.star.repeat(quest.avgRating)}</div>
+                      <div key={i} className="results-list-item" onClick={() => this.flyToQuest(quest)}>
+                        {quest.name}<br />
+                        {[...Array(quest.avgRating)].map(() => icons.starIcon)}
+                      </div>
                     ))
                   }
                 </div>}

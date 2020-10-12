@@ -53,7 +53,6 @@ class QuestForm extends React.Component {
             </div>
             <div className="form-group">
               <select className="form-control" name="theme" value={theme} onChange={handleQuestFormChange}>
-                <option value='theme'>Theme</option>
                 {themes.map(theme =>
                   <option key={theme} value={theme}>{theme}</option>
                 )}

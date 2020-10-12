@@ -224,6 +224,10 @@ button {
     background-color: $map-sand;
     box-shadow: 0px 0px 2px $map-grey;
     cursor: crosshair;
+
+    &:hover {
+      background-color: #fffff0
+    }
   }
 }
 

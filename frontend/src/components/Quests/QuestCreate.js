@@ -5,7 +5,8 @@ import StopForm from './StopForm'
 import StopList from './StopList'
 import Map from '../map/Map'
 import BgMap from '../map/BgMap'
-import { createQuest, updateQuest, reverseGeoCode } from '../../lib/api'
+
+import { createQuest, updateQuest, reverseGeoCode, getSingleQuest } from '../../lib/api'
 
 class QuestCreate extends React.Component{
 
@@ -15,7 +16,7 @@ class QuestCreate extends React.Component{
       description: '',
       location: '',
       estTime: '',
-      theme: 'theme',
+      theme: 'Adventure',
       timer: false
     },
     stopFormData: {
@@ -35,30 +36,78 @@ class QuestCreate extends React.Component{
     tabShow: 'info',
     geocoderValue: null,
     geocoderKey: 0,
-    markers: []
+    markers: [],
+    edit: false
   }
 
-  themes = ['Food & Drink', 'Sightseeing', 'Adventure', 'Speed']
+  themes = ['Adventure', 'Sightseeing']
   
   bgLatLng = [
     (Math.random() * 180) - 90,
     (Math.random() * 360) - 180
   ]
 
-  componentDidMount = () => {
-    if (this.props.questToEdit) {
-      const questToEdit = (this.props.questToEdit)
-      const questFormData = { ...questToEdit, stops: [] }
-      const stops = [ ...questToEdit.stops ]
-      this.setState({ questFormData, stops })
-    }
+  emptyQuestForm = {
+    name: '',
+    description: '',
+    location: '',
+    estTime: '',
+    theme: 'Adventure',
+    timer: false
+  }
 
+  emptystopForm = {
+    name: '',
+    clue: '',
+    answerType: 'Answer',
+    answer: '',
+    hint: '',
+    location: {
+      latitude: '',
+      longitude: ''
+    }
+  }
+
+  componentDidMount = () => {
+    if (this.props.match.params.id) this.getQuestToEdit()
   }
 
   componentDidUpdate = (prevProps, prevState) => {
+    // If switching from edit to create, the component will not remount so we need to manually reset the state
+    if (prevProps.match.params.id && !this.props.match.params.id) {
+      this.setState({
+        questFormData: this.emptyQuestForm,
+        stopFormData: this.emptystopForm,
+        stops: [],
+        tabShow: 'info',
+        edit: false
+      })
+    }
     if (this.state.tabShow === 'stops' && this.state.stops.length === 0) this.selectTab('addStop')
     // Dont fire the below if the first if block is fired
     else if (prevState.tabShow !== this.state.tabShow) this.getMarkers()
+  }
+
+  getQuestToEdit = async () => {
+    try {
+      const questToEditFull = await getSingleQuest(this.props.match.params.id)
+      if (!questToEditFull) throw new Error()
+      const questToEdit = {
+        id: questToEditFull.data.id,
+        name: questToEditFull.data.name,
+        owner: questToEditFull.data.owner,
+        description: questToEditFull.data.description,
+        estTime: questToEditFull.data.estTime,
+        theme: questToEditFull.data.theme,
+        timer: questToEditFull.data.timer
+      }
+
+      const questFormData = { ...questToEdit }
+      const stops = [ ...questToEditFull.data.stops ]
+      this.setState({ questFormData, stops, edit: true })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   getMarkers = () => {
@@ -110,13 +159,12 @@ class QuestCreate extends React.Component{
       const newQuestData = { ...this.state.questFormData, stops: [...this.state.stops], location }
       console.log(newQuestData)
       let response
-      if (this.props.questToEdit) {
-        response  = await updateQuest(newQuestData, this.props.questId)
+      if (this.state.edit) {
+        response  = await updateQuest(newQuestData, this.props.questToEdit.id)
       } else {
         response = await createQuest(newQuestData)
       }
-      if (response.status === 201) this.props.history.push(`/quests/${response.data._id}`)
-      if (response.status === 202) this.props.redirect()
+      this.props.history.push(`/quests/${response.data._id}`)
     } catch (err) {
       console.log(err)
     }
@@ -126,8 +174,8 @@ class QuestCreate extends React.Component{
     const stops = [ ...this.state.stops ]
     const stopData = { ...this.state.stopFormData }
 
+    // Fill answer with dummy value for backend validation even though it will never be seen
     if (stopData.answer === '') stopData.answer = 'tour'
-    console.log(stopData)
 
     // New Stop
     if (this.state.stopToEdit === this.state.stops.length) stops.push(stopData)
@@ -224,7 +272,7 @@ class QuestCreate extends React.Component{
       selectLocation: this.selectLocation,
       selectTab: this.selectTab,
       isNew: stopToEdit === stops.length,
-      isTour: questFormData.theme === 'Sightseeing' || questFormData.theme === 'Food & Drink'
+      isTour: questFormData.theme === 'Sightseeing'
     }
 
     const questFormProps = {
@@ -238,7 +286,7 @@ class QuestCreate extends React.Component{
     return (
       <div className="create-quest">
         <BgMap latLng={this.bgLatLng} />
-        {this.props.questToEdit ? <h3>Edit Quest</h3> : <h3>Create a New Quest</h3>}
+        <h3>{this.props.match.params.id ? 'Edit Quest' : 'Create a New Quest'}</h3>
         <div className="create-container">
           <div className="create-info">
             <div className="show-tabs">
@@ -258,6 +306,7 @@ class QuestCreate extends React.Component{
               <StopList stops={stops} changeTab={this.selectTab} deleteStop={this.deleteStop} />
             </div>
           </div>
+          {/* Map */}
           <div className="create-map">
             <Map
               flyTo={flyTo}

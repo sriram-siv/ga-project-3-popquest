@@ -1,10 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import { getSingleQuest, updateQuest, submitReview } from '../../lib/api'
 import { isAuthenticated } from '../../lib/auth'
-import { Link } from 'react-router-dom'
-import Timer from './Timer'
+import icons from '../../lib/icons'
 
+import Timer from './Timer'
 import Map from '../map/Map'
+
 
 class QuestShow extends React.Component {
   state = {
@@ -24,8 +27,6 @@ class QuestShow extends React.Component {
     },
     guessProximity: -1
   }
-
-  star = '⭐️'
 
   componentDidMount = async () => {
     const response = await getSingleQuest(this.props.match.params.id)
@@ -233,7 +234,7 @@ class QuestShow extends React.Component {
                 ? route.reviews.map((review, i) => (
                   <div key={i} className='comment-style'>
                     <span><Link to={`/users/${review.owner.id}`}>{review.owner.username}</Link>: {review.text}</span>
-                    <span>{this.star.repeat(review.rating)}</span><hr />
+                    <span>{[...Array(review.rating)].map(() => icons.starIcon)}</span><hr />
                   </div>))                
                 : <h5>No reviews yet.<br />Complete the quest to leave one of your own</h5>
               }    

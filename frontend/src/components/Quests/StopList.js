@@ -1,7 +1,9 @@
 import React from 'react'
+import icons from '../../lib/icons'
 
 const StopList = (props) => {
   const { stops, changeTab, deleteStop } = props
+  
 
   return (
     <div className="stop-list">
@@ -9,12 +11,8 @@ const StopList = (props) => {
         <div key={i} className="stop-list-item">
           <div>{stop.name}</div>
           <div className="stop-list-buttons">
-            <button onClick={() => changeTab('addStop', i)}>
-              <img src={require('../../images/edit.svg')} alt="edit stop"/>
-            </button>
-            <button onClick={() => deleteStop(i)}>
-              <img src={require('../../images/delete.svg')} alt="delete stop"/>
-            </button>
+            <button onClick={() => changeTab('addStop', i)}>{icons.editIcon}</button>
+            <button onClick={() => deleteStop(i)}>{icons.deleteIcon}</button>
           </div>
         </div>
       ))}

@@ -28,18 +28,17 @@ class QuestEdit extends React.Component {
     }
   }
 
-  // TODO redirect to quest page?
   redirect = () => {
-    this.props.history.goBack()
+    this.props.history.push(`/quests/${this.state.questToEdit.id}`)
   }
 
-  render(){
+  render() {
+    console.log(this.props.match.params)
     const { questToEdit } = this.state
-
     if (!questToEdit) return null
 
     return (
-      <QuestCreate questToEdit={questToEdit} questId={questToEdit.id} redirect={this.redirect}/>
+      <QuestCreate questToEdit={questToEdit} redirect={this.redirect}/>
     )
   }
 }
