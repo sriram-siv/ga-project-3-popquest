@@ -40,7 +40,7 @@ class ProfileIndex extends React.Component {
       <>
         <BgMap latLng={this.bgLatLng} />
         <div className="profile-index">
-          <h3>Profiles</h3>
+          <h3 className ="page-title">Profiles</h3>
           <div className='container'>
             <div className="profile-search-field">
               <input

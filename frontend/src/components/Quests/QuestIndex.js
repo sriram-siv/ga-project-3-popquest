@@ -117,14 +117,12 @@ class QuestIndex extends React.Component {
   render() {
     const { formData, results, flyTo } = this.state
     const selected = results ? results.filter(quest => quest.selected)[0] : null
-
     
-
     return (
       <>
         <BgMap latLng={this.bgLatLng} />
         <div className="browse-quests">
-          <h3>Find a new Quest</h3>
+          <h3 className ="page-title">Find a new Quest</h3>
           <Filter {...formData} handleChange={this.handleChange} selectLocation={this.selectLocation} />
           <div className="results">
             <div className="results-map">

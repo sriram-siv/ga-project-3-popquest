@@ -1,7 +1,7 @@
 import React from 'react'
-
 import MapGL, { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+
 import StopMarker from '../map/StopMarker'
 
 class Map extends React.Component {
@@ -14,7 +14,8 @@ class Map extends React.Component {
     },
     clickedLocation: null,
     mapRef: null,
-    autoTransition: false
+    autoTransition: false,
+    searchingForGeolocation: false
   }
 
   componentDidMount = () => {
@@ -28,9 +29,13 @@ class Map extends React.Component {
   }
 
   goToCurrentPosition = () => {
-    navigator.geolocation.getCurrentPosition(data => {
-      this.flyTo(data.coords)
-    })
+    // Changes state for animation button whilst in progress
+    this.setState({ searchingForGeolocation: true },
+      navigator.geolocation.getCurrentPosition(data => {
+        this.flyTo(data.coords)
+        this.setState({ searchingForGeolocation: false })
+      })
+    )
   }
 
   flyTo = (coords) => {
@@ -109,7 +114,7 @@ class Map extends React.Component {
 
   render() {
 
-    const { zoom, viewport, clickedLocation, autoTransition } = this.state
+    const { zoom, viewport, clickedLocation, autoTransition, searchingForGeolocation } = this.state
     const { results, clickMarker, route } = this.props
 
     return (
@@ -150,7 +155,7 @@ class Map extends React.Component {
             </Marker>
           return marker
         })}
-        <div className="locator" onClick={this.goToCurrentPosition}>
+        <div className={`locator ${searchingForGeolocation ? 'searching' : ''}`} onClick={this.goToCurrentPosition}>
           <img src={require('../../images/locate.png')} alt="locate button"/>
         </div>
       </MapGL>

@@ -286,7 +286,7 @@ class QuestCreate extends React.Component{
     return (
       <div className="create-quest">
         <BgMap latLng={this.bgLatLng} />
-        <h3>{this.props.match.params.id ? 'Edit Quest' : 'Create a New Quest'}</h3>
+        <h3 className ="page-title">{this.props.match.params.id ? 'Edit Quest' : 'Create a New Quest'}</h3>
         <div className="create-container">
           <div className="create-info">
             <div className="show-tabs">

@@ -59,10 +59,7 @@ button {
 
 }
 
-// TODO give these a class instead
-.browse-quests h3, 
-.create-quest h3,
-.profile-index h3 {
+.page-title {
   text-align: center;
   margin-top: 50px;
   color: #555;
@@ -149,6 +146,10 @@ button {
   flex-direction: column;
   width: 32%;
 
+  label {
+    margin-left: 5px;
+  }
+
   select, input {
     width: 100%;
   }
@@ -226,7 +227,7 @@ button {
     cursor: crosshair;
 
     &:hover {
-      background-color: #fffff0
+      filter: brightness(1.08);
     }
   }
 }
@@ -547,6 +548,10 @@ button {
 
   img {
     width: 100%;
+  }
+
+  &.searching {
+    animation: color-pulse 1s infinite;
   }
 }
 
@@ -919,6 +924,15 @@ button {
   30%, 70% {
     top: -50px;
     height: 100px;
+  }
+}
+
+@keyframes color-pulse {
+  0%, 100% {
+    background-color: #050;
+  }
+  50% {
+    background-color: #595;
   }
 }
 
