@@ -34,7 +34,10 @@ class Map extends React.Component {
       navigator.geolocation.getCurrentPosition(data => {
         this.flyTo(data.coords)
         this.setState({ searchingForGeolocation: false })
-      })
+      },
+      () => alert('Please enable your GPS position feature.'),
+      { maximumAge: 10000, timeout: 5000, enableHighAccuracy: true }
+      )
     )
   }
 
@@ -42,11 +45,12 @@ class Map extends React.Component {
     const { latitude, longitude } = coords
     this.setState({ autoTransition: coords }, () => {
       this.mapRef.getMap().flyTo({ center: [longitude, latitude], zoom: 11, speed: 2 })
-      
+      // Reset component viewport upon flyTo completion
       this.mapRef.getMap().on('moveend', () => {
         if (this.state.autoTransition) {
           const { latitude, longitude } = this.state.autoTransition
-          this.setState({ viewport: { latitude, longitude }, autoTransition: false, zoom: 11  })
+          this.setState({ viewport: { latitude, longitude }, autoTransition: false, zoom: 11 })
+          this.setBounds()
         }
       })
     })
@@ -66,8 +70,11 @@ class Map extends React.Component {
       const { latitude, longitude } = event
       this.setState({ viewport: { latitude, longitude } })
     }
+    this.setBounds()
+  }
 
-    // Gets NE and SW bounds of visible area
+  // Gets NE and SW bounds of visible area
+  setBounds = () => {
     if (this.state.mapRef && this.props.getBounds) {
       try {
         const bounds = this.state.mapRef.getMap().getBounds()

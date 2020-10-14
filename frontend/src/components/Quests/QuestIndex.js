@@ -50,13 +50,16 @@ class QuestIndex extends React.Component {
     const { allQuests, bounds } = this.state
 
     const results = allQuests
+      // Filter by visible area of map
       .filter(result => {
         const location = result.stops[0].location
         const inLat = location.latitude > bounds.latitude[0] && location.latitude < bounds.latitude[1]
         const inLng = location.longitude > bounds.longitude[0] && location.longitude < bounds.longitude[1]
         return inLat && inLng
       })
+      // Filter by quest type
       .filter(result => result.theme === theme || theme === 'All')
+      // Sort by selected measure
       .sort((a, b) => {
         if (sortBy === 'time') return b.estTime - a.estTime
         if (a.avgRating === 'Not yet rated') return 1
