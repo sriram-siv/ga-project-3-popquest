@@ -46,6 +46,11 @@ class QuestIndex extends React.Component {
   filterResults = () => {
     if (!this.state.allQuests) return
 
+    let selectedQuest
+    this.state.results.forEach(res => {
+      if (res.selected) selectedQuest = res.id
+    })
+
     const { theme, sortBy } = this.state.formData
     const { allQuests, bounds } = this.state
 
@@ -66,6 +71,11 @@ class QuestIndex extends React.Component {
         if (b.avgRating === 'Not yet rated') return -1
         return b.avgRating - a.avgRating
       })
+      .map(result => {
+        if (result.id === selectedQuest) result.selected = true
+        return result
+      })
+  
     
     this.setState({ results })
   }
@@ -120,7 +130,7 @@ class QuestIndex extends React.Component {
   render() {
     const { formData, results, flyTo } = this.state
     const selected = results ? results.filter(quest => quest.selected)[0] : null
-    
+    console.log(selected)
     return (
       <>
         <BgMap latLng={this.bgLatLng} />
