@@ -5,12 +5,14 @@ import Home from './components/common/Home'
 import Navbar from './components/common/Navbar'
 import Register from './components/common/Register'
 import Login from './components/common/Login'
-import QuestIndex from './components/quests/QuestIndex'
 import QuestShow from './components/quests/QuestShow'
 import QuestCreate from './components/quests/QuestCreate'
 import ProfileShow from './components/user/ProfileShow'
 import ProfileIndex from './components/user/ProfileIndex'
 import UserProfile from './components/user/UserProfile'
+
+
+import QuestIndex from './components/quests/QuestIndex'
 
 
 const App = () => {
