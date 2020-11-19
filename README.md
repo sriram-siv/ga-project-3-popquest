@@ -3,9 +3,22 @@
 
 In a team of 4, create a full stack app using the MERN stack with a design and functionality of our own choosing.
 
+In collaboration with [Donald Graham](https://github.com/dongra02), [Ren Mignogna](https://github.com/renato76) & [Liam Callaghan](https://github.com/LiamCallaghan)
+
 ### TIMEFRAME
 
 8 days
+
+### TECHNOLOGIES
+
+* React
+* JavaScript (ES6)
+* Node.js
+* MongoDB
+* Mongoose
+* HTML
+* CSS
+* Sass
 
 ### OUTLINE AND PLANNING
 
@@ -18,15 +31,15 @@ On the back end users and routes are linked through a series of relationships in
 
 We spent a good amount of time wire-framing the front end, with detailed designs for the index, create and route pages. This really payed off as when I started building the framework of the app it was very quick to put down the basic elements without having to rethink and rearrange as I went.
 
-![](README/Screenshot%202020-11-17%20at%2011.30.38.png)
+![](README/Screenshot%202020-11-17%20at%2011.30.38%202.png)
 
-We finished the planning stage by creating a Trello board and all put as many tasks on there as we could think of, organising them into front and back end as well as basic and advanced categories.
+We finished the planning stage by creating a Trello board and all put as many tasks on there as we could think of, organising them into front and back end as well as basic and advanced categories. The plan was for me and Ren to work on the front end design while the others handled the database and API work.
 
 ### STYLING
 
 We wanted to decide on a colour palette for the app early on so that the styling could be applied as we developed the functionality.  I chose a map style from the mapbox website and created a colour scheme based on it to create a consistent feel. I went through the process in this order as I knew that the maps would be the central component of the app and that everything  else should be complimentary to that.
 
-![](README/Screenshot%202020-11-17%20at%2011.38.45.png)
+![](README/Screenshot%202020-11-17%20at%2011.38.45%202.png)
 
 ### CREATING A MAP COMPONENT
 
@@ -97,9 +110,15 @@ I wrote a function in order to check a players proximity in order to complete th
 
 The quest routes also show a timer when playing in order to add an extra challenge to them or allow for competitive play. This timer also runs on tour routes but is not visible and the data from completion times is used to update the estimated time for each route.
 
-![](README/route-creator.gif)
+![](README/route-creator%202.gif)
 
-### CONCLUSION & FUTURE IMPROVEMENTS
+### CONCLUSION & KEY LEARNINGS
+
+The main lesson for me on this project was the work flow of collaborating with other developers. Working with GitHub and getting comfortable with it took us a couple of days and some headaches at the start but once we clicked with it, I was amazed at how streamlined it made everything. This feels especially relevant in a situation where we were all working remotely and had to rely on the versioning and communication tools.
+
+I was excited to delve into the world of third party React packages on this project and while I was satisfied with the results of using them, I think I learnt a lot in dealing with the restrictions that they sometimes imposed on me and in using developer tools to tease apart the inner workings in times where the documentation was lacking.
+
+### FUTURE IMPROVEMENTS
 
 At the end of the week I felt that we had managed to build all of the basic functionality of the app and that it could be used in its intended manner. I was particularly pleased with the work on the route creator and the consistency of the apps visual design & responsiveness.
 
