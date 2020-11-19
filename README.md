@@ -1,4 +1,6 @@
 # GA PROJECT 3: POPQUEST
+### [VISIT SITE](https://pop-quest.herokuapp.com/)
+
 ### BRIEF
 
 In a team of 4, create a full stack app using the MERN stack with a design and functionality of our own choosing.
@@ -31,7 +33,7 @@ On the back end users and routes are linked through a series of relationships in
 
 We spent a good amount of time wire-framing the front end, with detailed designs for the index, create and route pages. This really payed off as when I started building the framework of the app it was very quick to put down the basic elements without having to rethink and rearrange as I went.
 
-![](README/Screenshot%202020-11-17%20at%2011.30.38%202.png)
+![](README/Screenshot%202020-11-17%20at%2011.30.38%203.png)
 
 We finished the planning stage by creating a Trello board and all put as many tasks on there as we could think of, organising them into front and back end as well as basic and advanced categories. The plan was for me and Ren to work on the front end design while the others handled the database and API work.
 
@@ -39,7 +41,7 @@ We finished the planning stage by creating a Trello board and all put as many ta
 
 We wanted to decide on a colour palette for the app early on so that the styling could be applied as we developed the functionality.  I chose a map style from the mapbox website and created a colour scheme based on it to create a consistent feel. I went through the process in this order as I knew that the maps would be the central component of the app and that everything  else should be complimentary to that.
 
-![](README/Screenshot%202020-11-17%20at%2011.38.45%202.png)
+![](README/Screenshot%202020-11-17%20at%2011.38.45%203.png)
 
 ### CREATING A MAP COMPONENT
 
@@ -110,7 +112,7 @@ I wrote a function in order to check a players proximity in order to complete th
 
 The quest routes also show a timer when playing in order to add an extra challenge to them or allow for competitive play. This timer also runs on tour routes but is not visible and the data from completion times is used to update the estimated time for each route.
 
-![](README/route-creator%202.gif)
+![](README/route-creator%203.gif)
 
 ### CONCLUSION & KEY LEARNINGS
 
